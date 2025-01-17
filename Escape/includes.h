@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
+#include <vector>
+#include <memory>
 
 using namespace std;
 using namespace sf;
