@@ -32,21 +32,21 @@ int main()
         float deltaTime = clock.restart().asSeconds();
 
         player.update(deltaTime);
-        for (auto& enemy : enemies)
+        if (enemies.size() != 0)
         {
-            if (enemy)
+            for (auto& enemy : enemies)
             {
                 enemy->update(deltaTime);
-            }
-            else { cout << "Enemy est null" << endl; }
-        }
 
-        for (auto& enemy : enemies)
-        {
-            if (enemy->getBounds().intersects(player.getBounds()))
+            }
+
+            for (auto& enemy : enemies)
             {
-                cout << "Game Over" << endl;
-                return 0;
+                if (enemy->getBounds().intersects(player.getBounds()))
+                {
+                    cout << "Game Over" << endl;
+                    return 0;
+                }
             }
         }
 
@@ -58,10 +58,12 @@ int main()
         }
         window.display();
 
-        for (auto& enemy : enemies)
-        {
-            delete enemy;
-        }
+      
+    }  
+    for (auto& enemy : enemies)
+    {
+        delete enemy;
     }
+    enemies.clear();
     return 0;
 }
