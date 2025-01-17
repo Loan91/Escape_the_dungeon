@@ -8,10 +8,10 @@ int main()
 	RenderWindow window(VideoMode(1920, 1080), "Escape the Dungeon", Style::None);
     window.setFramerateLimit(60);
 
-	Player player(50.0f, 50.0f, {400.0f, 300.0f}, 20.0f);
+	Player player(50.0f, 50.0f, {400.0f, 300.0f}, 10.0f);
 
     vector<Enemy*> enemies;
-    enemies.push_back(new ChaserEnemy(40.0f, 40.0f, { 100.0f, 100.0f }, 10.0f, player));
+    enemies.push_back(new ChaserEnemy(40.0f, 40.0f, { 100.0f, 100.0f }, 50.0f, player));
 
 	Clock clock;
 
@@ -28,6 +28,27 @@ int main()
         {
             window.close();
         }
+
+        sf::Font font;
+        if (!font.loadFromFile("assets/font.ttf"))
+        {
+            std::cerr << "Erreur de chargement de la police!\n";
+            return -1;
+        }
+
+        sf::Texture mapTexture;
+        if (!mapTexture.loadFromFile("assets/map.png")) {
+            std::cout << "Erreur de chargement de l'image!" << std::endl;
+            return -1;
+        }
+        sf::Sprite map(mapTexture);
+
+        Text gameOverText;
+        gameOverText.setFont(font);
+        gameOverText.setString("Game Over");
+        gameOverText.setCharacterSize(50);
+        gameOverText.setFillColor(sf::Color::Red);
+        gameOverText.setPosition(1920 / 2 - gameOverText.getGlobalBounds().width / 2, 1080 / 2 - gameOverText.getGlobalBounds().height / 2);
         
         float deltaTime = clock.restart().asSeconds();
 
@@ -39,30 +60,27 @@ int main()
                 enemy->update(deltaTime);
 
             }
-
-            for (auto& enemy : enemies)
-            {
-                if (enemy->getBounds().intersects(player.getBounds()))
-                {
-                    cout << "Game Over" << endl;
-                    return 0;
-                }
-            }
         }
-
         window.clear();
+        window.draw(map);
         player.draw(window);
         for (auto& enemy : enemies)
         {
             enemy->draw(window);
         }
+        for (auto& enemy : enemies)
+        {
+            if (enemy->getBounds().intersects(player.getBounds()))
+            {
+                window.clear();
+                window.draw(map);
+                RectangleShape semiTransparentRect(Vector2f(1920, 1080));
+                semiTransparentRect.setFillColor(Color(0, 0, 0, 150));
+                window.draw(semiTransparentRect);
+                window.draw(gameOverText);
+            }
+        }
         window.display();
-
-      
-    }  
-    for (auto& enemy : enemies)
-    {
-        delete enemy;
     }
     enemies.clear();
     return 0;
