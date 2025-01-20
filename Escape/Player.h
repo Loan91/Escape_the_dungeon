@@ -20,5 +20,6 @@ public:
 	{
 		return shape.getGlobalBounds();
 	}
+	void increaseSpeed(float amount);
 };
 
