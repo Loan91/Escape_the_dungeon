@@ -12,7 +12,7 @@ int main()
     RenderWindow window(VideoMode(1920, 1080), "Escape the Dungeon", Style::Fullscreen);
     window.setFramerateLimit(60);
 
-    Player player(50.0f, 50.0f, { 100.0f, 100.0f }, 5.0f);
+    Player player(50.0f, 50.0f, { 50.0f, 50.0f }, 5.0f);
 
     vector<Enemy*> enemies;
     enemies.push_back(new ChaserEnemy(60.0f, 60.0f, { 1600.0f, 500.0f }, 50.0f, player));
