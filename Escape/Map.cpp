@@ -84,5 +84,8 @@ bool Map::checkCollision(const sf::FloatRect& bounds) const
 
 bool Map::checkDoorCollision(const sf::FloatRect& bounds) const
 {
-    return door.getGlobalBounds().intersects(bounds);
+    // Si la porte est déverrouillée, le joueur peut traverser
+    if (doorUnlocked)
+        return false;  // Pas de collision si déverrouillée
+    return door.getGlobalBounds().intersects(bounds);  // Collision si verrouillée
 }

@@ -13,6 +13,7 @@ void Key::interact(Player& player)
     {
         std::cout << "Key collected!" << std::endl;
         isActive = false;
+        
     }
 }
 

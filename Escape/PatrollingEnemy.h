@@ -9,6 +9,6 @@ private:
 	bool movingToEnd;
 public:
 	PatrollingEnemy(float width, float height, Vector2f startPoint, Vector2f endPoint, float speed);
-	void update(float deltaTime) override;
+	void update(float deltaTime, const Map& map) override;
 };
 

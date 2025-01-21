@@ -2,7 +2,7 @@
 
 ChaserEnemy::ChaserEnemy(float width, float height, Vector2f startPosition, float startSpeed, Player& target) : Enemy(width, height, startPosition, startSpeed), target(target) {}
 
-void ChaserEnemy::update(float deltaTime)
+void ChaserEnemy::update(float deltaTime, const Map& map)
 {
 	Vector2f direction = target.getPosition() - shape.getPosition();
 	float length = sqrt(direction.x * direction.x + direction.y * direction.y);

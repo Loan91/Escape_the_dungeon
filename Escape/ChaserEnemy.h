@@ -8,6 +8,6 @@ private:
 	Player& target;
 public:
 	ChaserEnemy(float width, float height, Vector2f startPosition, float startSpeed, Player& target);
-	void update(float deltaTime) override;
+	void update(float deltaTime, const Map& map) override;
 };
 

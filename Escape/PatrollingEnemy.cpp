@@ -5,7 +5,7 @@ PatrollingEnemy::PatrollingEnemy(float width, float height, Vector2f startPoint,
     shape.setPosition(startPoint);
 }
 
-void PatrollingEnemy::update(float deltaTime)
+void PatrollingEnemy::update(float deltaTime, const Map& map)
 {
 	Vector2f targetPoint = movingToEnd ? endPoint : startPoint;
 	Vector2f direction = targetPoint - shape.getPosition();
