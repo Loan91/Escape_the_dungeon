@@ -1,17 +1,19 @@
 #include "Potion.h"
 
-Potion::Potion(float radius, sf::Vector2f position) : isActive(true)
+Potion::Potion(float radius, sf::Vector2f position, float speedIncrease)
+    : isActive(true), speedIncrease(speedIncrease)
 {
     shape.setRadius(radius);
     shape.setPosition(position);
     shape.setFillColor(sf::Color::Green);
+    shape.setOrigin(radius, radius);
 }
 
 void Potion::interact(Player& player)
 {
     if (isActive)
     {
-        player.increaseSpeed(1.0f);
+        player.setSpeed(player.getSpeed() + speedIncrease);
         isActive = false;
     }
 }

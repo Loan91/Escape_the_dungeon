@@ -139,6 +139,7 @@
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="PatrollingEnemy.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Potion.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="includes.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Key.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="PatrollingEnemy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Potion.h" />
