@@ -12,19 +12,20 @@ int main()
 	RenderWindow window(VideoMode(1920, 1080), "Escape the Dungeon", Style::Fullscreen);
     window.setFramerateLimit(60);
 
-	Player player(50.0f, 50.0f, {400.0f, 300.0f}, 5.0f);
+	Player player(50.0f, 50.0f, {100.0f, 100.0f}, 5.0f);
 
     vector<Enemy*> enemies;
-    /*enemies.push_back(new ChaserEnemy(60.0f, 60.0f, { 100.0f, 100.0f }, 10.0f, player));*/
+    enemies.push_back(new ChaserEnemy(60.0f, 60.0f, { 1600.0f, 500.0f }, 50.0f, player));
     /*enemies.push_back(new ChaserEnemy(60.0f, 60.0f, { 1000.0f, 1000.0f }, 300.0f, player));*/
-    /*enemies.push_back(new PatrollingEnemy(100.0f, 100.0f, {200.0f, 200.0f}, {1000.0f, 200.0f}, 400.0f));
-    enemies.push_back(new PatrollingEnemy(100.0f, 100.0f, { 200.0f, 800.0f }, { 1000.0f, 800.0f }, 400.0f));*/
+    enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, {400.0f, 50.0f}, {1300.0f, 50.0f}, 400.0f));
+    enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, {50.0f, 150.0f}, {800.0f, 150.0f}, 400.0f));
+    enemies.push_back(new PatrollingEnemy(100.0f, 100.0f, { 50.0f, 400.0f }, { 450.0f, 400.0f }, 400.0f));
 
     std::vector<Interface*> interactables;
 
     interactables.push_back(new Potion(15.0f, { std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f }, 2.0f));
     interactables.push_back(new Potion(15.0f, { std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f }, 3.0f));
-    interactables.push_back(new Key({ 20.0f, 20.0f }, { rand() % 1800 + 50.0f, rand() % 1000 + 50.0f }));
+    interactables.push_back(new Key({ 20.0f, 20.0f }, { rand() % 1600 + 50.0f, rand() % 1000 + 50.0f }));
 
 	Clock clock;
 
@@ -69,6 +70,7 @@ int main()
                 break;
             }
         }
+
         if (map.checkDoorCollision(player.getBounds()))
         {
             if (player.getHasKey() && Keyboard::isKeyPressed(Keyboard::E))
@@ -142,13 +144,8 @@ int main()
                     }
                 }
             }
-
             player.updateWithMap(deltaTime, map);
             player.update(deltaTime);
-            if (map.checkDoorCollision(player.getBounds()) && player.getHasKey())
-            {
-                map.unlockDoor();
-            }
 
             if (map.checkCollision(player.getBounds()))
             {
@@ -163,6 +160,7 @@ int main()
 
                 }
             }
+
             window.clear();
             map.draw(window);
             player.draw(window);

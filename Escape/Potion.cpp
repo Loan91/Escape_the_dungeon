@@ -15,6 +15,9 @@ void Potion::interact(Player& player)
     {
         player.setSpeed(player.getSpeed() + speedIncrease);
         isActive = false;
+
+        shape.setPosition({ std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f });
+        isActive = true;
     }
 }
 
