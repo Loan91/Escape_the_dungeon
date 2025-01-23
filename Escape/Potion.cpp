@@ -33,3 +33,8 @@ bool Potion::isCollidingWithPlayer(const Player& player) const
 {
     return isActive && shape.getGlobalBounds().intersects(player.getBounds());
 }
+
+bool Potion::getIsActive() const
+{
+    return isActive;
+}

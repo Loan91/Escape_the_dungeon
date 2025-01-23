@@ -1,8 +1,8 @@
 #pragma once
-#include "Interface.h"
+#include "Interactable.h"
 #include "includes.h"
 
-class Potion : public Interface
+class Potion : public Interactable
 {
 private:
     sf::CircleShape shape;
@@ -14,5 +14,5 @@ public:
     void interact(Player& player) override;
     void draw(sf::RenderWindow& window);
     bool isCollidingWithPlayer(const Player& player) const;
-    bool getIsActive() const { return isActive; }
+    bool getIsActive() const;
 };

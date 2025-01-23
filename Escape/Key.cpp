@@ -13,7 +13,7 @@ void Key::interact(Player& player)
     {
         std::cout << "Key collected!" << std::endl;
         isActive = false;
-        
+
     }
 }
 
@@ -28,4 +28,9 @@ void Key::draw(sf::RenderWindow& window)
 bool Key::isCollidingWithPlayer(const Player& player) const
 {
     return isActive && shape.getGlobalBounds().intersects(player.getBounds());
+}
+
+bool Key::getIsActive() const
+{
+    return isActive;
 }

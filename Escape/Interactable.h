@@ -2,9 +2,8 @@
 #include "Player.h"
 #include "includes.h"
 
-class Interface
+class Interactable
 {
 public:
-    virtual ~Interface() = default;
     virtual void interact(Player& player) = 0;
 };

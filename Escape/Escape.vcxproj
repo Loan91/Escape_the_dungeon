@@ -136,7 +136,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="includes.cpp" />
-    <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -149,7 +149,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="includes.h" />
-    <ClInclude Include="Interface.h" />
+    <ClInclude Include="Interactable.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="PatrollingEnemy.h" />

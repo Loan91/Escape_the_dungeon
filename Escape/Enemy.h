@@ -14,4 +14,3 @@ public:
 
 	FloatRect getBounds() const;
 };
-

@@ -16,16 +16,10 @@ public:
     void update(float deltaTime, const Map& map) override;
     void draw(sf::RenderWindow& window) override;
 
-    float getSpeed() const { return speed; }
-    void setSpeed(float newSpeed) { speed = newSpeed; }
-    bool getHasKey() const { return hasKey; }
-    Vector2f getPosition() const
-    {
-        return shape.getPosition();
-    }
-    FloatRect getBounds() const
-    {
-        return shape.getGlobalBounds();
-    }
+    float getSpeed() const;
+    void setSpeed(float newSpeed);
+    bool getHasKey() const;
+    Vector2f getPosition() const;
+    FloatRect getBounds() const;
     void increaseSpeed(float amount);
 };

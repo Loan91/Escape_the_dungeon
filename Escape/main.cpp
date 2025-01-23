@@ -20,7 +20,7 @@ int main()
     enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 50.0f, 150.0f }, { 800.0f, 150.0f }, 400.0f));
     enemies.push_back(new PatrollingEnemy(100.0f, 100.0f, { 50.0f, 400.0f }, { 450.0f, 400.0f }, 400.0f));
 
-    std::vector<Interface*> interactables;
+    std::vector<Interactable*> interactables;
 
     interactables.push_back(new Potion(15.0f, { std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f }, 2.0f));
     interactables.push_back(new Potion(15.0f, { std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f }, 3.0f));
@@ -74,6 +74,7 @@ int main()
         {
             if (player.getHasKey() && Keyboard::isKeyPressed(Keyboard::E))
             {
+                cout << "test";
                 map.unlockDoor();
                 victoire = true;
             }

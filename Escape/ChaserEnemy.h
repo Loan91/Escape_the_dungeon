@@ -10,4 +10,3 @@ public:
 	ChaserEnemy(float width, float height, Vector2f startPosition, float startSpeed, Player& target);
 	void update(float deltaTime, const Map& map) override;
 };
-

@@ -16,5 +16,3 @@ FloatRect Enemy::getBounds() const
 {
 	return shape.getGlobalBounds();
 }
-
-

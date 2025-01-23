@@ -19,5 +19,3 @@ void ChaserEnemy::update(float deltaTime, const Map& map)
 	if (position.y + shape.getSize().y > 1080) position.y = 1080 - shape.getSize().y;
 	shape.setPosition(position);
 }
-
-

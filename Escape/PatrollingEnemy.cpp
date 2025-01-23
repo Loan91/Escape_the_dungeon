@@ -1,8 +1,8 @@
 #include "PatrollingEnemy.h"
 
-PatrollingEnemy::PatrollingEnemy(float width, float height, Vector2f startPoint, Vector2f endPoint, float speed) : Enemy(width, height, startPoint, speed), startPoint(startPoint), endPoint(endPoint), movingToEnd(true) 
+PatrollingEnemy::PatrollingEnemy(float width, float height, Vector2f startPoint, Vector2f endPoint, float speed) : Enemy(width, height, startPoint, speed), startPoint(startPoint), endPoint(endPoint), movingToEnd(true)
 {
-    shape.setPosition(startPoint);
+	shape.setPosition(startPoint);
 }
 
 void PatrollingEnemy::update(float deltaTime, const Map& map)

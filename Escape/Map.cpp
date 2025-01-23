@@ -88,3 +88,18 @@ bool Map::checkDoorCollision(const sf::FloatRect& bounds) const
         return false;
     return door.getGlobalBounds().intersects(bounds);
 }
+
+void Map::unlockDoor()
+{
+    doorUnlocked = true;
+}
+
+bool Map::isDoorUnlocked() const
+{
+    return doorUnlocked;
+}
+
+void Map::setOpenedDoorTexture(sf::Texture& texture)
+{
+    openedDoorTexture = texture;
+}

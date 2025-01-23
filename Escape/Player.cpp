@@ -61,3 +61,28 @@ void Player::draw(sf::RenderWindow& window)
 {
     window.draw(shape);
 }
+
+float Player::getSpeed() const
+{
+    return speed;
+}
+
+void Player::setSpeed(float newSpeed)
+{
+    speed = newSpeed;
+}
+
+bool Player::getHasKey() const
+{
+    return hasKey;
+}
+
+Vector2f Player::getPosition() const
+{
+    return shape.getPosition();
+}
+
+FloatRect Player::getBounds() const
+{
+    return shape.getGlobalBounds();
+}

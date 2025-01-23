@@ -25,9 +25,9 @@ public:
 
     bool checkDoorCollision(const sf::FloatRect& bounds) const;
 
-    void unlockDoor() { doorUnlocked = true; }
+    void unlockDoor();
 
-    bool isDoorUnlocked() const { return doorUnlocked; }
+    bool isDoorUnlocked() const;
 
-    void setOpenedDoorTexture(sf::Texture& texture) { openedDoorTexture = texture; }
+    void setOpenedDoorTexture(sf::Texture& texture);
 };
