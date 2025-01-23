@@ -6,13 +6,13 @@ class Player : public Entity
 {
 private:
     float speed;
-    RectangleShape shape;
+    RectangleShape shape3;
     bool hasKey;
     sf::Vector2f movement;
 public:
     Player(float width, float height, Vector2f startPosition, float startSpeed);
     void handleInput(float deltaTime, const Map& map);
-    void handleCollisions(const Map& map);
+    bool handleCollisions(const Map& map);
     void update(float deltaTime, const Map& map) override;
     void draw(sf::RenderWindow& window) override;
 

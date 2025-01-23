@@ -5,7 +5,7 @@
 class Potion : public Interactable
 {
 private:
-    sf::CircleShape shape;
+    sf::CircleShape shape4;
     bool isActive;
     float speedIncrease;
 

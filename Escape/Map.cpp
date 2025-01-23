@@ -24,24 +24,24 @@ bool Map::loadFromFile(const std::string& filePath)
         for (size_t x = 0; x < line.size(); ++x)
         {
             char tile = line[x];
-            sf::RectangleShape shape;
-            shape.setSize({ 50.0f, 50.0f });
-            shape.setPosition(x * 50.0f, y * 50.0f);
+            sf::RectangleShape shape5;
+            shape5.setSize({ 50.0f, 50.0f });
+            shape5.setPosition(x * 50.0f, y * 50.0f);
 
             if (tile == '1')
             {
-                shape.setTexture(&wallTexture);
-                walls.push_back(shape);
+                shape5.setTexture(&wallTexture);
+                walls.push_back(shape5);
             }
             else if (tile == 'D')
             {
-                shape.setTexture(&doorTexture);
-                door = shape;
+                shape5.setTexture(&doorTexture);
+                door = shape5;
             }
             else if (tile == '0')
             {
-                shape.setTexture(&floorTexture);
-                floorTiles.push_back(shape);
+                shape5.setTexture(&floorTexture);
+                floorTiles.push_back(shape5);
             }
         }
         ++y;

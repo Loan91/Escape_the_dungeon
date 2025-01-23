@@ -4,18 +4,18 @@ ChaserEnemy::ChaserEnemy(float width, float height, Vector2f startPosition, floa
 
 void ChaserEnemy::update(float deltaTime, const Map& map)
 {
-	Vector2f direction = target.getPosition() - shape.getPosition();
+	Vector2f direction = target.getPosition() - shape1.getPosition();
 	float length = sqrt(direction.x * direction.x + direction.y * direction.y);
 	if (length != 0)
 	{
 		direction = direction / length;
 	}
-	shape.move(direction * speed * deltaTime);
+	shape1.move(direction * speed * deltaTime);
 
-	Vector2f position = shape.getPosition();
+	Vector2f position = shape1.getPosition();
 	if (position.x < 0) position.x = 0;
 	if (position.y < 0) position.y = 0;
-	if (position.x + shape.getSize().x > 1920) position.x = 1920 - shape.getSize().x;
-	if (position.y + shape.getSize().y > 1080) position.y = 1080 - shape.getSize().y;
-	shape.setPosition(position);
+	if (position.x + shape1.getSize().x > 1920) position.x = 1920 - shape1.getSize().x;
+	if (position.y + shape1.getSize().y > 1080) position.y = 1080 - shape1.getSize().y;
+	shape1.setPosition(position);
 }

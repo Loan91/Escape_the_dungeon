@@ -2,17 +2,17 @@
 
 Enemy::Enemy(float width, float height, Vector2f startPosition, float startSpeed) : position(startPosition), speed(startSpeed)
 {
-	shape.setSize({ width, height });
-	shape.setPosition(startPosition);
-	shape.setFillColor(Color::Red);
+	shape1.setSize({ width, height });
+	shape1.setPosition(startPosition);
+	shape1.setFillColor(Color::Red);
 }
 
 void Enemy::draw(sf::RenderWindow& window)
 {
-	window.draw(shape);
+	window.draw(shape1);
 }
 
 FloatRect Enemy::getBounds() const
 {
-	return shape.getGlobalBounds();
+	return shape1.getGlobalBounds();
 }

@@ -146,13 +146,13 @@ int main()
                 }
             }
 
-            player.update(deltaTime, map);
 
             if (map.checkCollision(player.getBounds()))
             {
                 player.handleCollisions(map);
             }
 
+            player.update(deltaTime, map);
             if (enemies.size() != 0)
             {
                 for (auto& enemy : enemies)

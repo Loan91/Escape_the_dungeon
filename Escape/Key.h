@@ -5,7 +5,7 @@
 class Key : public Interactable
 {
 private:
-    sf::RectangleShape shape;
+    sf::RectangleShape shape2;
     bool isActive;
 
 public:

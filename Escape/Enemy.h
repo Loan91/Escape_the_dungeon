@@ -4,7 +4,7 @@
 class Enemy : public Entity
 {
 protected:
-	RectangleShape shape;
+	RectangleShape shape1;
 	Vector2f position;
 	float speed;
 public:
