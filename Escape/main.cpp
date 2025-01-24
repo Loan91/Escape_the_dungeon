@@ -66,8 +66,8 @@ int main()
     Player player(50.0f, 50.0f, { 50.0f, 50.0f }, 5.0f, playerTexture);
 
     vector<Enemy*> enemies;
-    enemies.push_back(new ChaserEnemy(80.0f, 80.0f, { 1600.0f, 500.0f }, 50.0f, player, chaserTexture));
-    enemies.push_back(new ChaserEnemy(50.0f, 50.0f, { 50.0f, 800.0f }, 300.0f, player, chaserTexture));
+    enemies.push_back(new ChaserEnemy(80.0f, 80.0f, { 1600.0f, 500.0f }, 70.0f, player, chaserTexture));
+    enemies.push_back(new ChaserEnemy(50.0f, 50.0f, { 50.0f, 800.0f }, 250.0f, player, chaserTexture));
     enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 400.0f, 50.0f }, { 1300.0f, 50.0f }, 400.0f, patrollingTexture));
     enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 50.0f, 150.0f }, { 800.0f, 150.0f }, 400.0f, patrollingTexture));
     enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 850.0f, 300.0f }, { 1000.0f, 300.0f }, 250.0f, patrollingTexture));
