@@ -191,6 +191,7 @@ int main()
         {
             if (Potion* potion = dynamic_cast<Potion*>(interactable))
             {
+                potion->update(deltaTime);
                 if (potion->isCollidingWithPlayer(player))
                 {
                     potion->interact(player);
@@ -198,6 +199,7 @@ int main()
             }
             else if (Key* key = dynamic_cast<Key*>(interactable))
             {
+                key->update(deltaTime);
                 if (key->isCollidingWithPlayer(player))
                 {
                     key->interact(player);

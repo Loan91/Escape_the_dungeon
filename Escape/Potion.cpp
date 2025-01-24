@@ -1,6 +1,6 @@
 #include "Potion.h"
 
-Potion::Potion(sf::Texture& texture, sf::Vector2f position, float speedIncrease, sf::Vector2f size) : isActive(true), speedIncrease(speedIncrease), texture(&texture)
+Potion::Potion(sf::Texture& texture, sf::Vector2f position, float speedIncrease, sf::Vector2f size) : isActive(true), speedIncrease(speedIncrease), texture(&texture), floatAmplitude(10.0f), floatSpeed(2.0f), baseY(position.y)
 {
     sprite.setTexture(*this->texture);
     sprite.setPosition(position);
@@ -14,8 +14,20 @@ void Potion::interact(Player& player)
         player.setSpeed(player.getSpeed() + speedIncrease);
         isActive = false;
 
-        sprite.setPosition({ std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f });
+        sf::Vector2f newPosition = { std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f };
+        sprite.setPosition(newPosition);
+        baseY = newPosition.y;
         isActive = true;
+    }
+}
+
+void Potion::update(float deltaTime)
+{
+    if (isActive)
+    {
+        float elapsed = animationClock.getElapsedTime().asSeconds();
+        float offsetY = floatAmplitude * std::sin(floatSpeed * elapsed);
+        sprite.setPosition(sprite.getPosition().x, baseY + offsetY);
     }
 }
 

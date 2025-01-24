@@ -1,6 +1,6 @@
 #include "Key.h"
 
-Key::Key(sf::Texture& texture, sf::Vector2f position, sf::Vector2f size) : isActive(true), texture(&texture)
+Key::Key(sf::Texture& texture, sf::Vector2f position, sf::Vector2f size) : isActive(true), texture(&texture), floatAmplitude(8.0f), floatSpeed(1.5f), baseY(position.y) 
 {
     sprite.setTexture(*this->texture);
     sprite.setPosition(position);
@@ -14,6 +14,16 @@ void Key::interact(Player& player)
         std::cout << "Key collected!" << std::endl;
         player.setHasKey(true);
         isActive = false;
+    }
+}
+
+void Key::update(float deltaTime)
+{
+    if (isActive)
+    {
+        float elapsed = animationClock.getElapsedTime().asSeconds();
+        float offsetY = floatAmplitude * std::sin(floatSpeed * elapsed);
+        sprite.setPosition(sprite.getPosition().x, baseY + offsetY);
     }
 }
 
