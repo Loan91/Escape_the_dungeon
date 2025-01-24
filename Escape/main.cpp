@@ -47,11 +47,27 @@ int main()
         return -1;
     }
 
+    sf::Texture explosionTexture;
+    if (!explosionTexture.loadFromFile("assets/explo.png")) {
+        std::cerr << "Erreur de chargement de l'image explosion.png\n";
+        return -1;
+    }
+
+    sf::Sprite explosionSprite;
+    explosionSprite.setTexture(explosionTexture);
+    explosionSprite.setTextureRect(sf::IntRect(0, 0, 128, 128));
+    explosionSprite.setPosition(1920 / 2 - 64, 1080 / 2 - 64);
+
+    float explosionFrameDuration = 0.1f;
+    float explosionElapsedTime = 0.0f;
+    int explosionCurrentFrame = 0;
+    bool showExplosion = false;
+
     Player player(50.0f, 50.0f, { 50.0f, 50.0f }, 5.0f, playerTexture);
 
     vector<Enemy*> enemies;
     enemies.push_back(new ChaserEnemy(80.0f, 80.0f, { 1600.0f, 500.0f }, 50.0f, player, chaserTexture));
-    enemies.push_back(new ChaserEnemy(50.0f, 50.0f, { 50.0f, 800.0f }, 100.0f, player, chaserTexture));
+    enemies.push_back(new ChaserEnemy(50.0f, 50.0f, { 50.0f, 800.0f }, 300.0f, player, chaserTexture));
     enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 400.0f, 50.0f }, { 1300.0f, 50.0f }, 400.0f, patrollingTexture));
     enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 50.0f, 150.0f }, { 800.0f, 150.0f }, 400.0f, patrollingTexture));
     enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 850.0f, 300.0f }, { 1000.0f, 300.0f }, 250.0f, patrollingTexture));
@@ -180,10 +196,33 @@ int main()
             window.close();
         }
 
-        if (gameOver)
-        {
+        if (showExplosion) {
+            explosionElapsedTime += deltaTime;
+
+            if (explosionElapsedTime >= explosionFrameDuration) {
+                explosionElapsedTime -= explosionFrameDuration;
+                explosionCurrentFrame++;
+
+                explosionSprite.setTextureRect(sf::IntRect((explosionCurrentFrame % 8) * 128,
+                    (explosionCurrentFrame / 8) * 128,
+                    128, 128));
+            }
+
+            if (explosionCurrentFrame >= 16) {
+                showExplosion = false;
+            }
+        }
+
+        if (showExplosion) {
+            window.draw(explosionSprite);
+        }
+
+        if (gameOver) {
             endGame = true;
             isVictoire = false;
+            showExplosion = true;
+            explosionElapsedTime = 0.0f;
+            explosionCurrentFrame = 0;
             continue;
         }
 
