@@ -8,6 +8,6 @@ private:
 	Vector2f endPoint;
 	bool movingToEnd;
 public:
-	PatrollingEnemy(float width, float height, Vector2f startPoint, Vector2f endPoint, float speed);
+	PatrollingEnemy(float width, float height, Vector2f startPoint, Vector2f endPoint, float speed, const sf::Texture& texture);
 	void update(float deltaTime, const Map& map) override;
 };

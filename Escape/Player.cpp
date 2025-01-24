@@ -1,30 +1,31 @@
 #include "Player.h"
 
-Player::Player(float width, float height, Vector2f startPosition, float startSpeed) : speed(startSpeed), hasKey(false)
+Player::Player(float width, float height, sf::Vector2f startPosition, float startSpeed, const sf::Texture& texture) : speed(startSpeed), hasKey(false)
 {
-    shape3.setSize({ width, height });
-    shape3.setPosition(startPosition);
-    shape3.setFillColor(Color::Blue);
+    sprite.setTexture(texture);
+    sprite.setPosition(startPosition);
+    sprite.setScale(width / texture.getSize().x, height / texture.getSize().y);
 }
 
 void Player::handleInput(float deltaTime, const Map& map)
 {
+    sf::Vector2f movement(0.0f, 0.0f);
+
     if (Keyboard::isKeyPressed(Keyboard::Z))
-    {
-        shape3.move(0.0f, -speed);
-    }
+        movement.y -= speed;
     if (Keyboard::isKeyPressed(Keyboard::S))
-    {
-        shape3.move(0.0f, speed);
-    }
+        movement.y += speed;
     if (Keyboard::isKeyPressed(Keyboard::Q))
-    {
-        shape3.move(-speed, 0.0f);
-    }
+        movement.x -= speed;
     if (Keyboard::isKeyPressed(Keyboard::D))
-    {
-        shape3.move(speed, 0.0f);
-    }
+        movement.x += speed;
+
+    sf::FloatRect newBounds = sprite.getGlobalBounds();
+    newBounds.left += movement.x;
+    newBounds.top += movement.y;
+
+    if (!map.checkCollision(newBounds))
+        sprite.move(movement);
 }
 
 void Player::increaseSpeed(float amount)
@@ -49,25 +50,28 @@ bool Player::handleCollisions(const Map& map)
 void Player::update(float deltaTime, const Map& map)
 {
     handleInput(deltaTime, map);
-    Vector2f position = shape3.getPosition();
+    sf::Vector2f position = sprite.getPosition();
+
     if (!handleCollisions(map))
     {
         if (position.x < 0) position.x = 0;
         if (position.y < 0) position.y = 0;
-        if (position.x + shape3.getSize().x > 1920) position.x = 1920 - shape3.getSize().x;
-        if (position.y + shape3.getSize().y > 1080) position.y = 1080 - shape3.getSize().y;
-        shape3.setPosition(position);
+        if (position.x + sprite.getGlobalBounds().width > 1920)
+            position.x = 1920 - sprite.getGlobalBounds().width;
+        if (position.y + sprite.getGlobalBounds().height > 1080)
+            position.y = 1080 - sprite.getGlobalBounds().height;
+
+        sprite.setPosition(position);
     }
     else
     {
-        shape3.setPosition(position);
+        sprite.setPosition(position);
     }
-   
 }
 
 void Player::draw(sf::RenderWindow& window)
 {
-    window.draw(shape3);
+    window.draw(sprite);
 }
 
 float Player::getSpeed() const
@@ -85,12 +89,17 @@ bool Player::getHasKey() const
     return hasKey;
 }
 
+void Player::setHasKey(bool state)
+{
+    hasKey = state;
+}
+
 Vector2f Player::getPosition() const
 {
-    return shape3.getPosition();
+    return sprite.getPosition();
 }
 
 FloatRect Player::getBounds() const
 {
-    return shape3.getGlobalBounds();
+    return sprite.getGlobalBounds();
 }

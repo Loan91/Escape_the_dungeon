@@ -12,19 +12,58 @@ int main()
     RenderWindow window(VideoMode(1920, 1080), "Escape the Dungeon", Style::Fullscreen);
     window.setFramerateLimit(60);
 
-    Player player(50.0f, 50.0f, { 50.0f, 50.0f }, 5.0f);
+    sf::Texture chaserTexture;
+    if (!chaserTexture.loadFromFile("assets/chaser.png"))
+    {
+        std::cerr << "Erreur de chargement de l'image chaser.png\n";
+        return -1;
+    }
+
+    sf::Texture patrollingTexture;
+    if (!patrollingTexture.loadFromFile("assets/patrolling.png"))
+    {
+        std::cerr << "Erreur de chargement de l'image patrolling.png\n";
+        return -1;
+    }
+
+    sf::Texture potionTexture;
+    if (!potionTexture.loadFromFile("assets/potion.png"))
+    {
+        std::cerr << "Erreur de chargement de l'image potion.png\n";
+        return -1;
+    }
+
+    sf::Texture keyTexture;
+    if (!keyTexture.loadFromFile("assets/key.png"))
+    {
+        std::cerr << "Erreur de chargement de l'image key.png\n";
+        return -1;
+    }
+
+    sf::Texture playerTexture;
+    if (!playerTexture.loadFromFile("assets/player.png"))
+    {
+        std::cerr << "Erreur de chargement de l'image player.png\n";
+        return -1;
+    }
+
+    Player player(50.0f, 50.0f, { 50.0f, 50.0f }, 5.0f, playerTexture);
 
     vector<Enemy*> enemies;
-    enemies.push_back(new ChaserEnemy(60.0f, 60.0f, { 1600.0f, 500.0f }, 50.0f, player));
-    enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 400.0f, 50.0f }, { 1300.0f, 50.0f }, 400.0f));
-    enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 50.0f, 150.0f }, { 800.0f, 150.0f }, 400.0f));
-    enemies.push_back(new PatrollingEnemy(100.0f, 100.0f, { 50.0f, 400.0f }, { 450.0f, 400.0f }, 400.0f));
+    enemies.push_back(new ChaserEnemy(80.0f, 80.0f, { 1600.0f, 500.0f }, 50.0f, player, chaserTexture));
+    enemies.push_back(new ChaserEnemy(50.0f, 50.0f, { 50.0f, 800.0f }, 100.0f, player, chaserTexture));
+    enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 400.0f, 50.0f }, { 1300.0f, 50.0f }, 400.0f, patrollingTexture));
+    enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 50.0f, 150.0f }, { 800.0f, 150.0f }, 400.0f, patrollingTexture));
+    enemies.push_back(new PatrollingEnemy(50.0f, 50.0f, { 850.0f, 300.0f }, { 1000.0f, 300.0f }, 250.0f, patrollingTexture));
+    enemies.push_back(new PatrollingEnemy(80.0f, 80.0f, { 50.0f, 900.0f }, { 1830.0f, 900.0f }, 500.0f, patrollingTexture));
+    enemies.push_back(new PatrollingEnemy(70.0f, 70.0f, { 150.0f, 850.0f }, { 150.0f, 980.0f }, 350.0f, patrollingTexture));
+    enemies.push_back(new PatrollingEnemy(100.0f, 100.0f, { 50.0f, 400.0f }, { 450.0f, 400.0f }, 400.0f, patrollingTexture));
 
     std::vector<Interactable*> interactables;
 
-    interactables.push_back(new Potion(15.0f, { std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f }, 2.0f));
-    interactables.push_back(new Potion(15.0f, { std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f }, 3.0f));
-    interactables.push_back(new Key({ 20.0f, 20.0f }, { rand() % 1600 + 50.0f, rand() % 1000 + 50.0f }));
+    interactables.push_back(new Potion(potionTexture, { std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f }, 2.0f, { 30.0f, 30.0f }));
+    interactables.push_back(new Potion(potionTexture, { std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f }, 3.0f, { 30.0f, 30.0f }));
+    interactables.push_back(new Key(keyTexture, { std::rand() % 1600 + 50.0f, std::rand() % 1000 + 50.0f }, { 50.0f, 30.0f }));
 
     Clock clock;
 
@@ -49,6 +88,30 @@ int main()
     }
     Sprite end(endTexture);
 
+    sf::Font font;
+    if (!font.loadFromFile("assets/font.ttf"))
+    {
+        std::cerr << "Erreur de chargement de la police!\n";
+        return -1;
+    }
+
+    Text gameOverText;
+    gameOverText.setFont(font);
+    gameOverText.setString("Game Over");
+    gameOverText.setCharacterSize(50);
+    gameOverText.setFillColor(sf::Color::Red);
+    gameOverText.setPosition(1920 / 2 - gameOverText.getGlobalBounds().width / 2, 1080 / 2 - gameOverText.getGlobalBounds().height / 2);
+
+    Text victoireText;
+    victoireText.setFont(font);
+    victoireText.setString("Victoire");
+    victoireText.setCharacterSize(50);
+    victoireText.setFillColor(sf::Color::Yellow);
+    victoireText.setPosition(1920 / 2 - victoireText.getGlobalBounds().width / 2, 1080 / 2 - victoireText.getGlobalBounds().height / 2);
+
+    bool endGame = false;
+    bool isVictoire = false;
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -58,8 +121,37 @@ int main()
                 window.close();
         }
 
+        if (endGame)
+        {
+            window.clear();
+
+            if (isVictoire)
+            {
+                window.draw(end);
+                RectangleShape semiTransparentRect(Vector2f(1920, 1080));
+                semiTransparentRect.setFillColor(Color(0, 0, 0, 150));
+                window.draw(semiTransparentRect);
+                window.draw(victoireText);
+            }
+            else
+            {
+                map.draw(window);
+                RectangleShape semiTransparentRect(Vector2f(1920, 1080));
+                semiTransparentRect.setFillColor(Color(0, 0, 0, 150));
+                window.draw(semiTransparentRect);
+                window.draw(gameOverText);
+            }
+
+            window.display();
+
+            if (Keyboard::isKeyPressed(Keyboard::Escape))
+            {
+                window.close();
+            }
+            continue;
+        }
+
         bool gameOver = false;
-        bool victoire = false;
 
         for (auto& enemy : enemies)
         {
@@ -74,32 +166,12 @@ int main()
         {
             if (player.getHasKey() && Keyboard::isKeyPressed(Keyboard::E))
             {
-                cout << "test";
                 map.unlockDoor();
-                victoire = true;
+                isVictoire = true;
+                endGame = true;
+                continue;
             }
         }
-
-        sf::Font font;
-        if (!font.loadFromFile("assets/font.ttf"))
-        {
-            std::cerr << "Erreur de chargement de la police!\n";
-            return -1;
-        }
-
-        Text gameOverText;
-        gameOverText.setFont(font);
-        gameOverText.setString("Game Over");
-        gameOverText.setCharacterSize(50);
-        gameOverText.setFillColor(sf::Color::Red);
-        gameOverText.setPosition(1920 / 2 - gameOverText.getGlobalBounds().width / 2, 1080 / 2 - gameOverText.getGlobalBounds().height / 2);
-
-        Text victoireText;
-        victoireText.setFont(font);
-        victoireText.setString("Victoire");
-        victoireText.setCharacterSize(50);
-        victoireText.setFillColor(sf::Color::Yellow);
-        victoireText.setPosition(1920 / 2 - victoireText.getGlobalBounds().width / 2, 1080 / 2 - victoireText.getGlobalBounds().height / 2);
 
         float deltaTime = clock.restart().asSeconds();
 
@@ -110,80 +182,69 @@ int main()
 
         if (gameOver)
         {
-            window.clear();
-            map.draw(window);
-            RectangleShape semiTransparentRect(Vector2f(1920, 1080));
-            semiTransparentRect.setFillColor(Color(0, 0, 0, 150));
-            window.draw(semiTransparentRect);
-            window.draw(gameOverText);
+            endGame = true;
+            isVictoire = false;
+            continue;
         }
-        else if (victoire)
+
+        for (auto& interactable : interactables)
         {
-            window.clear();
-            window.draw(end);
-            RectangleShape semiTransparentRect(Vector2f(1920, 1080));
-            semiTransparentRect.setFillColor(Color(0, 0, 0, 150));
-            window.draw(semiTransparentRect);
-            window.draw(victoireText);
+            if (Potion* potion = dynamic_cast<Potion*>(interactable))
+            {
+                if (potion->isCollidingWithPlayer(player))
+                {
+                    potion->interact(player);
+                }
+            }
+            else if (Key* key = dynamic_cast<Key*>(interactable))
+            {
+                if (key->isCollidingWithPlayer(player))
+                {
+                    key->interact(player);
+                }
+            }
         }
-        else
+
+
+        if (map.checkCollision(player.getBounds()))
         {
-            for (auto& interactable : interactables)
-            {
-                if (Potion* potion = dynamic_cast<Potion*>(interactable))
-                {
-                    if (potion->isCollidingWithPlayer(player))
-                    {
-                        potion->interact(player);
-                    }
-                }
-                else if (Key* key = dynamic_cast<Key*>(interactable))
-                {
-                    if (key->isCollidingWithPlayer(player))
-                    {
-                        key->interact(player);
-                    }
-                }
-            }
+            player.handleCollisions(map);
+        }
 
-
-            if (map.checkCollision(player.getBounds()))
-            {
-                player.handleCollisions(map);
-            }
-
-            player.update(deltaTime, map);
-            if (enemies.size() != 0)
-            {
-                for (auto& enemy : enemies)
-                {
-                    enemy->update(deltaTime, map);
-                }
-            }
-
-            window.clear();
-            map.draw(window);
-            player.draw(window);
+        player.update(deltaTime, map);
+        if (enemies.size() != 0)
+        {
             for (auto& enemy : enemies)
             {
-                enemy->draw(window);
+                enemy->update(deltaTime, map);
             }
-            for (auto& interactable : interactables)
+        }
+
+        window.clear();
+        map.draw(window);
+        player.draw(window);
+        for (auto& enemy : enemies)
+        {
+            enemy->draw(window);
+        }
+        for (auto& interactable : interactables)
+        {
+            if (Potion* potion = dynamic_cast<Potion*>(interactable))
             {
-                if (Potion* potion = dynamic_cast<Potion*>(interactable))
-                {
-                    potion->draw(window);
-                }
-                else if (Key* key = dynamic_cast<Key*>(interactable))
-                {
-                    key->draw(window);
-                }
+                potion->draw(window);
+            }
+            else if (Key* key = dynamic_cast<Key*>(interactable))
+            {
+                key->draw(window);
             }
         }
 
         window.display();
     }
-
+    for (auto& enemy : enemies)
+    {
+        delete enemy;
+    }
     enemies.clear();
     return 0;
 }

@@ -5,11 +5,12 @@
 class Key : public Interactable
 {
 private:
-    sf::RectangleShape shape2;
+    sf::Sprite sprite;
+    sf::Texture* texture;
     bool isActive;
 
 public:
-    Key(sf::Vector2f size, sf::Vector2f position);
+    Key(sf::Texture& texture, sf::Vector2f position, sf::Vector2f size);
     void interact(Player& player) override;
     void draw(sf::RenderWindow& window);
     bool isCollidingWithPlayer(const Player& player) const;

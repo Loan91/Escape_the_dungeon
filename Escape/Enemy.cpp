@@ -2,17 +2,21 @@
 
 Enemy::Enemy(float width, float height, Vector2f startPosition, float startSpeed) : position(startPosition), speed(startSpeed)
 {
-	shape1.setSize({ width, height });
-	shape1.setPosition(startPosition);
-	shape1.setFillColor(Color::Red);
+    sprite.setPosition(startPosition);
+}
+
+void Enemy::setTexture(const sf::Texture& texture)
+{
+    this->texture = texture;
+    sprite.setTexture(this->texture);
 }
 
 void Enemy::draw(sf::RenderWindow& window)
 {
-	window.draw(shape1);
+    window.draw(sprite);
 }
 
 FloatRect Enemy::getBounds() const
 {
-	return shape1.getGlobalBounds();
+    return sprite.getGlobalBounds();
 }

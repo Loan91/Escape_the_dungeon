@@ -77,21 +77,25 @@ bool Map::checkCollision(const sf::FloatRect& bounds) const
     for (const auto& wall : walls)
     {
         if (wall.getGlobalBounds().intersects(bounds))
+        {
             return true;
+        }
     }
     return false;
-}
-
-bool Map::checkDoorCollision(const sf::FloatRect& bounds) const
-{
-    if (doorUnlocked)
-        return false;
-    return door.getGlobalBounds().intersects(bounds);
 }
 
 void Map::unlockDoor()
 {
     doorUnlocked = true;
+}
+
+bool Map::checkDoorCollision(const sf::FloatRect& bounds) const
+{
+    if (doorUnlocked)
+    {
+        return false;
+    }
+    return door.getGlobalBounds().intersects(bounds);
 }
 
 bool Map::isDoorUnlocked() const

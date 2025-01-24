@@ -1,21 +1,48 @@
 #include "ChaserEnemy.h"
 
-ChaserEnemy::ChaserEnemy(float width, float height, Vector2f startPosition, float startSpeed, Player& target) : Enemy(width, height, startPosition, startSpeed), target(target) {}
+ChaserEnemy::ChaserEnemy(float width, float height, Vector2f startPosition, float startSpeed, Player& target, const sf::Texture& texture) : Enemy(width, height, startPosition, startSpeed), target(target)
+{
+    sprite.setTexture(texture);
+    sprite.setScale(width / texture.getSize().x, height / texture.getSize().y);
+    sprite.setPosition(startPosition);
+}
 
 void ChaserEnemy::update(float deltaTime, const Map& map)
 {
-	Vector2f direction = target.getPosition() - shape1.getPosition();
-	float length = sqrt(direction.x * direction.x + direction.y * direction.y);
-	if (length != 0)
-	{
-		direction = direction / length;
-	}
-	shape1.move(direction * speed * deltaTime);
+    Vector2f direction = target.getPosition() - position;
+    float magnitude = sqrt(direction.x * direction.x + direction.y * direction.y);
 
-	Vector2f position = shape1.getPosition();
-	if (position.x < 0) position.x = 0;
-	if (position.y < 0) position.y = 0;
-	if (position.x + shape1.getSize().x > 1920) position.x = 1920 - shape1.getSize().x;
-	if (position.y + shape1.getSize().y > 1080) position.y = 1080 - shape1.getSize().y;
-	shape1.setPosition(position);
+    if (magnitude > 0)
+    {
+        direction /= magnitude;
+    }
+
+    Vector2f newPosition = position + direction * speed * deltaTime;
+
+    if (!map.checkCollision(sf::FloatRect(newPosition, sf::Vector2f(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height))))
+    {
+        position = newPosition;
+    }
+    else
+    {
+        Vector2f lateralDirection = { direction.y, -direction.x };
+        Vector2f lateralPosition = position + lateralDirection * speed * deltaTime;
+
+        if (!map.checkCollision(sf::FloatRect(lateralPosition, sf::Vector2f(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height))))
+        {
+            position = lateralPosition;
+        }
+        else
+        {
+            lateralDirection = { -direction.y, direction.x };
+            lateralPosition = position + lateralDirection * speed * deltaTime;
+
+            if (!map.checkCollision(sf::FloatRect(lateralPosition, sf::Vector2f(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height))))
+            {
+                position = lateralPosition;
+            }
+        }
+    }
+    sprite.setPosition(position);
 }
+

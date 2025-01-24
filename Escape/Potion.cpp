@@ -1,12 +1,10 @@
 #include "Potion.h"
 
-Potion::Potion(float radius, sf::Vector2f position, float speedIncrease)
-    : isActive(true), speedIncrease(speedIncrease)
+Potion::Potion(sf::Texture& texture, sf::Vector2f position, float speedIncrease, sf::Vector2f size) : isActive(true), speedIncrease(speedIncrease), texture(&texture)
 {
-    shape4.setRadius(radius);
-    shape4.setPosition(position);
-    shape4.setFillColor(sf::Color::Green);
-    shape4.setOrigin(radius, radius);
+    sprite.setTexture(*this->texture);
+    sprite.setPosition(position);
+    sprite.setScale(size.x / texture.getSize().x, size.y / texture.getSize().y);
 }
 
 void Potion::interact(Player& player)
@@ -16,7 +14,7 @@ void Potion::interact(Player& player)
         player.setSpeed(player.getSpeed() + speedIncrease);
         isActive = false;
 
-        shape4.setPosition({ std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f });
+        sprite.setPosition({ std::rand() % 1800 + 50.0f, std::rand() % 1000 + 50.0f });
         isActive = true;
     }
 }
@@ -25,13 +23,13 @@ void Potion::draw(sf::RenderWindow& window)
 {
     if (isActive)
     {
-        window.draw(shape4);
+        window.draw(sprite);
     }
 }
 
 bool Potion::isCollidingWithPlayer(const Player& player) const
 {
-    return isActive && shape4.getGlobalBounds().intersects(player.getBounds());
+    return isActive && sprite.getGlobalBounds().intersects(player.getBounds());
 }
 
 bool Potion::getIsActive() const

@@ -7,6 +7,6 @@ class ChaserEnemy : public Enemy
 private:
 	Player& target;
 public:
-	ChaserEnemy(float width, float height, Vector2f startPosition, float startSpeed, Player& target);
+	ChaserEnemy(float width, float height, Vector2f startPosition, float startSpeed, Player& target, const sf::Texture& texture);
 	void update(float deltaTime, const Map& map) override;
 };

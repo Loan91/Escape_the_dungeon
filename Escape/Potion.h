@@ -5,12 +5,13 @@
 class Potion : public Interactable
 {
 private:
-    sf::CircleShape shape4;
+    sf::Sprite sprite;
+    sf::Texture* texture;
     bool isActive;
     float speedIncrease;
 
 public:
-    Potion(float radius, sf::Vector2f position, float speedIncrease);
+    Potion(sf::Texture& texture, sf::Vector2f position, float speedIncrease, sf::Vector2f size);
     void interact(Player& player) override;
     void draw(sf::RenderWindow& window);
     bool isCollidingWithPlayer(const Player& player) const;

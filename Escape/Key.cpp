@@ -1,10 +1,10 @@
 #include "Key.h"
 
-Key::Key(sf::Vector2f size, sf::Vector2f position) : isActive(true)
+Key::Key(sf::Texture& texture, sf::Vector2f position, sf::Vector2f size) : isActive(true), texture(&texture)
 {
-    shape2.setSize(size);
-    shape2.setPosition(position);
-    shape2.setFillColor(sf::Color::Yellow);
+    sprite.setTexture(*this->texture);
+    sprite.setPosition(position);
+    sprite.setScale(size.x / texture.getSize().x, size.y / texture.getSize().y);
 }
 
 void Key::interact(Player& player)
@@ -12,8 +12,8 @@ void Key::interact(Player& player)
     if (isActive)
     {
         std::cout << "Key collected!" << std::endl;
+        player.setHasKey(true);
         isActive = false;
-
     }
 }
 
@@ -21,13 +21,13 @@ void Key::draw(sf::RenderWindow& window)
 {
     if (isActive)
     {
-        window.draw(shape2);
+        window.draw(sprite);
     }
 }
 
 bool Key::isCollidingWithPlayer(const Player& player) const
 {
-    return isActive && shape2.getGlobalBounds().intersects(player.getBounds());
+    return isActive && sprite.getGlobalBounds().intersects(player.getBounds());
 }
 
 bool Key::getIsActive() const
